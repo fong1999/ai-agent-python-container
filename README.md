@@ -4,7 +4,7 @@ A secure API bridge between frontend applications and AWS Bedrock AI models, bui
 
 ## Features
 
-- REST API interface with OpenAI-compatible endpoints
+- REST API interface with standardized AI completion endpoints
 - Secure authentication with API keys
 - Support for multiple AWS Bedrock models (Claude, Llama, etc.)
 - Chat completions and text completions endpoints
@@ -76,11 +76,7 @@ bedrock-api-bridge/
 ├── Dockerfile
 ├── Makefile
 ├── README.md
-├── deployment/
-│   ├── harness/
-│   │   ├── deployment.yaml
-│   │   └── service.yaml
-│   └── k8s/
+├── iac/
 │       ├── deployment.yaml
 │       └── service.yaml
 ├── docker-compose.yml
