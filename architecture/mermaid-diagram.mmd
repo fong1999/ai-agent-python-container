@@ -1,0 +1,49 @@
+flowchart TD
+    %% Styling
+    classDef frontend fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:black
+    classDef bridge fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:black
+    classDef api fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px,color:black
+    classDef external fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:black
+    classDef cloud fill:#f5f5f5,stroke:#757575,stroke-width:1px,color:black
+
+    %% Components
+    Browser["Desktop & Mobile Browsers"]:::frontend
+    AngularSPA["Responsive Angular SPA"]:::frontend
+    
+    APIBridge["Bedrock API Bridge"]:::bridge
+    APIController["API Controllers"]:::bridge
+    Security["Authentication & Security"]:::bridge
+    Tracking["Usage Tracking"]:::bridge
+    Adapter["Model Adapter"]:::bridge
+
+    AWS[("AWS Cloud")]:::cloud
+    Bedrock["Amazon Bedrock"]:::external
+    Claude["Claude Models"]:::external
+    Llama["Llama Models"]:::external
+
+    %% Connections
+    Browser --> AngularSPA
+    AngularSPA --> |"REST API Calls"|APIBridge
+    
+    subgraph Bridge["Bedrock API Bridge Service"]
+        APIBridge --> |"Route Requests"|APIController
+        APIController --> |"Verify API Keys"|Security
+        APIController --> |"Transform Requests"|Adapter
+        APIController --> |"Log Usage"|Tracking
+    end
+    
+    subgraph AWSCloud["AWS Services"]
+        Adapter --> |"AWS SDK"|Bedrock
+        Bedrock --> Claude & Llama
+    end
+    
+    %% Add explanatory notes
+    subgraph Endpoints["API Endpoints"]
+        direction LR
+        Chat["/v1/chat/completions"]:::api
+        Completions["/v1/completions"]:::api
+        Models["/v1/models"]:::api
+        Health["/health"]:::api
+    end
+    
+    APIController --- Endpoints
